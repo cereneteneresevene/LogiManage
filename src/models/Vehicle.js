@@ -18,7 +18,13 @@ const vehicleSchema = new mongoose.Schema({
   mileage: {
     type: Number,
     required: true
+  },
+  assignedDriver: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
+    required: false 
   }
+
 });
 
 module.exports = mongoose.model('Vehicle', vehicleSchema);
