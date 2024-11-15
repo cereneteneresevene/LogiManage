@@ -1,7 +1,5 @@
-// controllers/deliveryController.js
 const Delivery = require('../models/Delivery');
 
-// Teslimat oluşturma - Sadece Admin ve Manager
 exports.createDelivery = async (req, res) => {
   try {
     const delivery = new Delivery(req.body);
@@ -12,17 +10,24 @@ exports.createDelivery = async (req, res) => {
   }
 };
 
-// Tüm teslimatları listeleme - Sadece Admin ve Manager
 exports.getAllDeliveries = async (req, res) => {
   try {
-    const deliveries = await Delivery.find().populate('assignedDriver', 'name');
+    let deliveries;
+
+    if (req.user.role === 'admin' || req.user.role === 'manager') {
+      deliveries = await Delivery.find();
+    } else if (req.user.role === 'driver') {
+      deliveries = await Delivery.find({ assignedDriver: req.user.id });
+    } else {
+      return res.status(403).json({ message: 'Bu işlemi yapmaya yetkiniz yok.' });
+    }
+
     res.json(deliveries);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Sunucu hatası.' });
   }
 };
 
-// Belirli bir teslimatı güncelleme - Sadece Admin ve Manager
 exports.updateDelivery = async (req, res) => {
   try {
     const delivery = await Delivery.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -33,13 +38,11 @@ exports.updateDelivery = async (req, res) => {
   }
 };
 
-// Teslimat durumunu güncelleme - Driver yalnızca kendine atanmış teslimatları güncelleyebilir
 exports.updateDeliveryStatus = async (req, res) => {
   try {
     const delivery = await Delivery.findById(req.params.id);
     if (!delivery) return res.status(404).json({ message: 'Teslimat bulunamadı.' });
 
-    // Yalnızca atanmış driver teslimat durumunu güncelleyebilir
     if (req.user.role === 'driver' && delivery.assignedDriver.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Bu teslimatı güncelleme yetkiniz yok.' });
     }
