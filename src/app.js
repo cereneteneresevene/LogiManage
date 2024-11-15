@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const vehicleRoutes = require('./routes/vehicleRoutes');
-const routeRoutes = require('./routes/routeRoutes');
 const deliveryRoutes = require('./routes/deliveryRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,8 +28,9 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', vehicleRoutes);
-app.use('/api', routeRoutes);
 app.use('/api', deliveryRoutes);
+app.use('/api', taskRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Sunucu ${PORT} portunda çalışıyor`);
