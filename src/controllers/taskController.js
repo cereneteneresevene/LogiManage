@@ -1,6 +1,5 @@
 const Task = require('../models/Task');
 
-// Görev oluşturma - Sadece Admin ve Manager
 exports.createTask = async (req, res) => {
   try {
     const task = new Task(req.body);
@@ -11,7 +10,6 @@ exports.createTask = async (req, res) => {
   }
 };
 
-// Tüm görevleri listeleme - Sadece Admin ve Manager
 exports.getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find().populate('driver').populate('vehicle');
@@ -21,7 +19,6 @@ exports.getAllTasks = async (req, res) => {
   }
 };
 
-// Görevi güncelleme - Sadece Admin ve Manager
 exports.updateTask = async (req, res) => {
   try {
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -32,10 +29,8 @@ exports.updateTask = async (req, res) => {
   }
 };
 
-// Driver için görev listeleme
 exports.getTasksByDriver = async (req, res) => {
   try {
-    // Driver için sadece kendi görevlerini listeleyecek şekilde `driver` alanını kullanıyoruz
     const tasks = await Task.find({ driver: req.user.id }).populate('vehicle');
     res.json(tasks);
   } catch (error) {
