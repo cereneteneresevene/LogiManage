@@ -6,6 +6,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const vehicleRoutes = require('./routes/vehicleRoutes');
 const deliveryRoutes = require('./routes/deliveryRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const routeRoutes = require('./routes/routeRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,6 +31,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api', vehicleRoutes);
 app.use('/api', deliveryRoutes);
 app.use('/api', taskRoutes);
+app.use('/api', routeRoutes);
 
 
 app.listen(PORT, () => {

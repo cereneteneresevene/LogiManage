@@ -1,34 +1,59 @@
 const Route = require('../models/Route');
 
-// Rota oluşturma
 exports.createRoute = async (req, res) => {
-  const { startPoint, endPoint } = req.body;
   try {
-    const route = new Route({ startPoint, endPoint });
+    const route = new Route(req.body);
     await route.save();
-    res.status(201).json(route);
+    res.status(201).json({ message: 'Rota başarıyla oluşturuldu.', route });
   } catch (error) {
-    res.status(500).json({ message: 'Rota oluşturulamadı.' });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Tüm rotaları görüntüleme
-exports.getRoutes = async (req, res) => {
+exports.getAllRoutes = async (req, res) => {
   try {
-    const routes = await Route.find();
+    const routes = await Route.find().populate('assignedDriver');
     res.json(routes);
   } catch (error) {
-    res.status(500).json({ message: 'Rotalar alınamadı.' });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Belirli rotayı görüntüleme
-exports.getRouteById = async (req, res) => {
+exports.getRoutesByDriver = async (req, res) => {
+  try {
+    const routes = await Route.find({ assignedDriver: req.user.id });
+    res.json(routes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateRoute = async (req, res) => {
   try {
     const route = await Route.findById(req.params.id);
     if (!route) return res.status(404).json({ message: 'Rota bulunamadı.' });
-    res.json(route);
+
+    if (req.user.role === 'driver') {
+      if (route.assignedDriver.toString() !== req.user.id) {
+        return res.status(403).json({ message: 'Bu rotayı güncelleme yetkiniz yok.' });
+      }
+    }
+
+    const updatedRoute = await Route.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json({ message: 'Rota başarıyla güncellendi.', updatedRoute });
   } catch (error) {
-    res.status(500).json({ message: 'Rota alınamadı.' });
+    res.status(500).json({ message: error.message });
   }
 };
+
+exports.deleteRoutes = async(req,res) =>{
+  try{
+    const route = await Route.findById(req.params.id);
+    if(!route) return res.status(404).json({message : 'Rota bulunamadı.'});
+
+    await route.deleteOne();
+    res.json({message: 'Rota başarıyla silindi.'});
+  } catch(error){
+    res.status(500).json({message: error.message});
+  }
+}
