@@ -4,20 +4,28 @@ const fuelSchema = new mongoose.Schema({
   vehicle: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Vehicle',
-    required: true
+    required: true,
   },
-  amount: {
+  driver: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  fuelAmount: {
     type: Number,
-    required: true
+    required: true,
+  },
+  mileage: {
+    type: Number,
+    required: true,
   },
   cost: {
-    type: Number,
-    required: true
+    type: Number, 
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('Fuel', fuelSchema);
