@@ -11,4 +11,8 @@ router.get('/routes/my', authenticateToken, authorizeRole(['driver']), routeCont
 router.put('/routes/:id', authenticateToken, authorizeRole(['admin', 'manager','driver']), routeController.updateRoute);
 router.delete('/routes/:id', authenticateToken, authorizeRole(['admin', 'manager']), routeController.deleteRoutes);
 
+router.get('/geocode', routeController.getCoordinates); 
+router.get('/reverse-geocode', routeController.getAddress); 
+router.post('/plan-route', routeController.planRoute); 
+
 module.exports = router;

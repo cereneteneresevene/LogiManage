@@ -1,4 +1,5 @@
 const Route = require('../models/Route');
+const openStreetMapService = require('../services/openStreetMapService');
 
 exports.createRoute = async (req, res) => {
   try {
@@ -57,3 +58,36 @@ exports.deleteRoutes = async(req,res) =>{
     res.status(500).json({message: error.message});
   }
 }
+
+// Coğrafi Kodlama (Adres -> Koordinatlar)
+exports.getCoordinates = async (req, res) => {
+  try {
+    const { address } = req.query;
+    const coordinates = await openStreetMapService.geocodeAddress(address);
+    res.json(coordinates);
+  } catch (error) {
+    res.status(500).json({ message: 'Adres için koordinat bulunamadı.' });
+  }
+};
+
+// Ters Coğrafi Kodlama (Koordinatlar -> Adres)
+exports.getAddress = async (req, res) => {
+  try {
+    const { lat, lon } = req.query;
+    const address = await openStreetMapService.reverseGeocode(lat, lon);
+    res.json(address);
+  } catch (error) {
+    res.status(500).json({ message: 'Koordinatlar için adres bulunamadı.' });
+  }
+};
+
+// Rota Planlama
+exports.planRoute = async (req, res) => {
+  try {
+    const { start, end } = req.body; // start ve end: [enlem, boylam] formatında olmalı
+    const route = await openStreetMapService.getRoute(start, end);
+    res.json(route);
+  } catch (error) {
+    res.status(500).json({ message: 'Rota planlanamadı.' });
+  }
+};
