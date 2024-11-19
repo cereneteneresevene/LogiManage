@@ -23,7 +23,12 @@ const vehicleSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
     required: false 
-  }
+  },
+  fuelLevel: {
+    type: Number, 
+    required: true, 
+    default: 100
+  }, 
 
 });
 

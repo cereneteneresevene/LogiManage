@@ -1,6 +1,7 @@
 const Notification = require('../models/Notification');
 const User = require('../models/User');
 const { sendEmail } = require('../services/emailService');
+const Vehicle = require('../models/Vehicle');
 
 exports.createNotification = async (req, res) => {
   try {
@@ -56,6 +57,41 @@ exports.markAsRead = async (req, res) => {
     );
     if (!notification) return res.status(404).json({ message: 'Bildirim bulunamadı.' });
     res.json(notification);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.checkFuelAlerts = async (req, res) => {
+  try {
+    const lowFuelThreshold = 15; // Kritik yakıt seviyesi (yüzde)
+    const vehicles = await Vehicle.find();
+
+    const reminders = [];
+
+    for (const vehicle of vehicles) {
+      if (vehicle.fuelLevel <= lowFuelThreshold) {
+        // Bildirim oluştur
+        const message = `Araç (${vehicle.plateNumber}) yakıt seviyesi kritik! Lütfen yakıt ekleyin.`;
+        reminders.push({ vehicle: vehicle._id, message });
+
+        // Veritabanına bildirim kaydı
+        await Notification.create({
+          user: vehicle.assignedDriver,
+          message,
+          type: 'Fuel Alert',
+          isRead: false,
+        });
+
+        // E-posta gönderimi
+        const driver = await User.findById(vehicle.assignedDriver);
+        if (driver && driver.email) {
+          await sendEmail(driver.email, 'Yakıt Uyarısı', message);
+        }
+      }
+    }
+
+    res.json({ reminders });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

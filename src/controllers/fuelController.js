@@ -1,5 +1,6 @@
 const Fuel = require('../models/Fuel');
 const Vehicle = require('../models/Vehicle');
+const { sendEmail } = require('../services/emailService'); 
 
 exports.addFuelRecord = async (req, res) => {
   try {
@@ -42,3 +43,4 @@ exports.getFuelRecords = async (req, res) => {
     res.status(500).json({ message: 'Yakıt kayıtları alınırken hata oluştu.', error: error.message });
   }
 };
+
