@@ -4,24 +4,25 @@ const notificationSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
   },
   message: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: String,
-    enum: ['route_change', 'maintenance_reminder', 'fuel_alert']
+    enum: ['routeChange', 'urgent', 'maintenance', 'fuel'],
+    required: true,
   },
   isRead: {
     type: Boolean,
-    default: false
+    default: false,
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('Notification', notificationSchema);

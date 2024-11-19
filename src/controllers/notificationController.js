@@ -1,23 +1,62 @@
 const Notification = require('../models/Notification');
+const User = require('../models/User');
+const { sendEmail } = require('../services/emailService');
 
-// Bildirim oluşturma
 exports.createNotification = async (req, res) => {
-  const { userId, message, type } = req.body;
   try {
-    const notification = new Notification({ userId, message, type });
+    const { userId, message, type } = req.body;
+
+    // Kullanıcı ID kontrolü
+    if (!userId) {
+      return res.status(400).json({ message: 'Kullanıcı ID\'si eksik.' });
+    }
+
+    // Bildirimi oluştur
+    const notification = new Notification({
+      user: userId,
+      message,
+      type,
+    });
+
     await notification.save();
-    res.status(201).json(notification);
+
+    // Kullanıcıya e-posta gönder
+    const user = await User.findById(userId);
+    if (user && user.email) {
+      await sendEmail(
+        user.email,
+        'Yeni Bildiriminiz Var!',
+        `Merhaba ${user.name},\n\n${message}`
+      );
+    }
+
+    res.status(201).json({ message: 'Bildirim ve e-posta başarıyla oluşturuldu.', notification });
   } catch (error) {
-    res.status(500).json({ message: 'Bildirim oluşturulamadı.' });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Kullanıcı bildirimlerini listeleme
-exports.getUserNotifications = async (req, res) => {
+
+
+exports.getNotificationsByUser = async (req, res) => {
   try {
-    const notifications = await Notification.find({ userId: req.user.id });
+    const notifications = await Notification.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.json(notifications);
   } catch (error) {
-    res.status(500).json({ message: 'Bildirimler alınamadı.' });
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.markAsRead = async (req, res) => {
+  try {
+    const notification = await Notification.findByIdAndUpdate(
+      req.params.id,
+      { isRead: true },
+      { new: true }
+    );
+    if (!notification) return res.status(404).json({ message: 'Bildirim bulunamadı.' });
+    res.json(notification);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

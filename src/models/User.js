@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  phone: { 
+    type: String, 
+    required: false 
+  },
   role: {
     type: String,
     enum: ['driver', 'manager', 'admin'],
