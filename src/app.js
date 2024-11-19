@@ -9,6 +9,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const routeRoutes = require('./routes/routeRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 const fuelRoutes = require('./routes/fuelRoutes');
+const maintenanceRoutes = require('./routes/maintenanceRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,7 +37,7 @@ app.use('/api', taskRoutes);
 app.use('/api', routeRoutes);
 app.use('/api', locationRoutes);
 app.use('/api/fuel', fuelRoutes);
-
+app.use('/api/maintenances', maintenanceRoutes);
 
 app.listen(PORT, () => {
   console.log(`Sunucu ${PORT} portunda çalışıyor`);

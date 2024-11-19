@@ -4,16 +4,28 @@ const maintenanceSchema = new mongoose.Schema({
   vehicle: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Vehicle',
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
+    required: true,
   },
-  date: {
+  maintenanceDate: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
+  nextMaintenanceDate: {
+    type: Date,
+    required: true,
+  },
+  mileageAtMaintenance: {
+    type: Number,
+    required: true,
+  },
+  nextMaintenanceMileage: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Maintenance', maintenanceSchema);
