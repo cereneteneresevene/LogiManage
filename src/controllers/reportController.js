@@ -55,7 +55,7 @@ exports.getMonthlyPerformanceReport = async (req, res) => {
 
 exports.getMonthlyReportPDF = async (req, res) => {
   try {
-    const reportData = req.reportData; // Önceden oluşturulan aylık rapor verileri
+    const reportData = req.reportData; 
 
     const doc = new PDFDocument();
     const fileName = `monthly_report_${Date.now()}.pdf`;
@@ -65,24 +65,21 @@ exports.getMonthlyReportPDF = async (req, res) => {
     
     doc.pipe(res);
 
-    doc.fontSize(18).text('Aylık Performans Raporu', { align: 'center' });
+    doc.fontSize(18).text('Aylik Performans Raporu', { align: 'center' });
     doc.moveDown();
 
-    // Teslimat Verileri
-    doc.fontSize(14).text('Teslimat Performansı');
+    doc.fontSize(14).text('Teslimat Performansi');
     doc.text(`Toplam Teslimatlar: ${reportData.deliveries.total}`);
     doc.text(`Tamamlanan Teslimatlar: ${reportData.deliveries.completed}`);
     doc.text(`Geciken Teslimatlar: ${reportData.deliveries.delayed}`);
     doc.moveDown();
 
-    // Yakıt Verileri
-    doc.text('Yakıt Tüketimi');
-    doc.text(`Toplam Yakıt Tüketimi: ${reportData.fuel.totalFuelConsumed} litre`);
+    doc.text('Yakit Tüketimi');
+    doc.text(`Toplam Yakit Tüketimi: ${reportData.fuel.totalFuelConsumed} litre`);
     doc.moveDown();
 
-    // Bakım Verileri
-    doc.text('Bakım Kayıtları');
-    doc.text(`Toplam Bakım Sayısı: ${reportData.maintenance.totalMaintenances}`);
+    doc.text('Bakim Kayitlari');
+    doc.text(`Toplam Bakim Sayisi: ${reportData.maintenance.totalMaintenances}`);
     doc.end();
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -91,10 +88,10 @@ exports.getMonthlyReportPDF = async (req, res) => {
 
 exports.getMonthlyReportExcel = async (req, res) => {
   try {
-    const reportData = req.reportData; // Önceden oluşturulan aylık rapor verileri
+    const reportData = req.reportData; 
 
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Aylık Performans Raporu');
+    const worksheet = workbook.addWorksheet('Aylik Performans Raporu');
 
     worksheet.columns = [
       { header: 'Kategori', key: 'category', width: 25 },
@@ -104,8 +101,8 @@ exports.getMonthlyReportExcel = async (req, res) => {
     worksheet.addRow({ category: 'Toplam Teslimatlar', value: reportData.deliveries.total });
     worksheet.addRow({ category: 'Tamamlanan Teslimatlar', value: reportData.deliveries.completed });
     worksheet.addRow({ category: 'Geciken Teslimatlar', value: reportData.deliveries.delayed });
-    worksheet.addRow({ category: 'Toplam Yakıt Tüketimi', value: `${reportData.fuel.totalFuelConsumed} litre` });
-    worksheet.addRow({ category: 'Toplam Bakım Sayısı', value: reportData.maintenance.totalMaintenances });
+    worksheet.addRow({ category: 'Toplam Yakit Tüketimi', value: `${reportData.fuel.totalFuelConsumed} litre` });
+    worksheet.addRow({ category: 'Toplam Bakim Sayisi', value: reportData.maintenance.totalMaintenances });
 
     const fileName = `monthly_report_${Date.now()}.xlsx`;
 
