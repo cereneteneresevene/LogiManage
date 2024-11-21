@@ -23,3 +23,22 @@
 2024-11-21T09:58:45.169Z [INFO]: MongoDB bağlantısı başarılı!
 2024-11-21T09:58:48.440Z [INFO]: API Request - Method: GET, URL: /api/vehicles/64d3f2bc5a6532aefa00f123, Body: {}
 2024-11-21T09:58:48.454Z [ERROR]: Unhandled Rejection: next is not defined
+2024-11-21T10:14:55.887Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T10:14:55.912Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T10:15:08.371Z [INFO]: API Request - Method: GET, URL: /api/vehicles12345, Body: {}
+2024-11-21T10:15:14.653Z [INFO]: API Request - Method: GET, URL: /api/vehicles/12345, Body: {}
+2024-11-21T10:16:16.216Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T10:16:16.252Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T10:16:19.319Z [INFO]: API Request - Method: GET, URL: /api/vehicles/12345, Body: {}
+2024-11-21T10:18:18.346Z [INFO]: Sunucu kapatılıyor...
+2024-11-21T10:18:23.410Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T10:18:23.452Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T10:18:33.712Z [INFO]: API Request - Method: GET, URL: /api/vehicles/12345, Body: {}
+2024-11-21T10:19:03.014Z [INFO]: Sunucu kapatılıyor...
+2024-11-21T10:19:07.097Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T10:19:07.139Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T10:19:10.610Z [INFO]: API Request - Method: GET, URL: /api/vehicles/12345, Body: {}
+2024-11-21T10:57:54.288Z [INFO]: Sunucu kapatılıyor...
+2024-11-21T10:59:14.651Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T10:59:14.683Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T11:01:54.283Z [INFO]: Sunucu kapatılıyor...

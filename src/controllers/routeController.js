@@ -1,93 +1,89 @@
 const Route = require('../models/Route');
 const openStreetMapService = require('../services/openStreetMapService');
+const CustomError = require('../utils/customError');
 
-exports.createRoute = async (req, res) => {
+exports.createRoute = async (req, res, next) => {
   try {
     const route = new Route(req.body);
     await route.save();
     res.status(201).json({ message: 'Rota başarıyla oluşturuldu.', route });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error); 
   }
 };
 
-exports.getAllRoutes = async (req, res) => {
+exports.getAllRoutes = async (req, res, next) => {
   try {
     const routes = await Route.find().populate('assignedDriver');
     res.json(routes);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-exports.getRoutesByDriver = async (req, res) => {
+exports.getRoutesByDriver = async (req, res, next) => {
   try {
     const routes = await Route.find({ assignedDriver: req.user.id });
     res.json(routes);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-exports.updateRoute = async (req, res) => {
+exports.updateRoute = async (req, res, next) => {
   try {
     const route = await Route.findById(req.params.id);
-    if (!route) return res.status(404).json({ message: 'Rota bulunamadı.' });
+    if (!route) throw new CustomError('Rota bulunamadı.', 404);
 
-    if (req.user.role === 'driver') {
-      if (route.assignedDriver.toString() !== req.user.id) {
-        return res.status(403).json({ message: 'Bu rotayı güncelleme yetkiniz yok.' });
-      }
+    if (req.user.role === 'driver' && route.assignedDriver.toString() !== req.user.id) {
+      throw new CustomError('Bu rotayı güncelleme yetkiniz yok.', 403);
     }
 
     const updatedRoute = await Route.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json({ message: 'Rota başarıyla güncellendi.', updatedRoute });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-exports.deleteRoutes = async(req,res) =>{
-  try{
+exports.deleteRoutes = async (req, res, next) => {
+  try {
     const route = await Route.findById(req.params.id);
-    if(!route) return res.status(404).json({message : 'Rota bulunamadı.'});
+    if (!route) throw new CustomError('Rota bulunamadı.', 404);
 
     await route.deleteOne();
-    res.json({message: 'Rota başarıyla silindi.'});
-  } catch(error){
-    res.status(500).json({message: error.message});
+    res.json({ message: 'Rota başarıyla silindi.' });
+  } catch (error) {
+    next(error);
   }
-}
+};
 
-// Coğrafi Kodlama (Adres -> Koordinatlar)
-exports.getCoordinates = async (req, res) => {
+exports.getCoordinates = async (req, res, next) => {
   try {
     const { address } = req.query;
     const coordinates = await openStreetMapService.geocodeAddress(address);
     res.json(coordinates);
   } catch (error) {
-    res.status(500).json({ message: 'Adres için koordinat bulunamadı.' });
+    next(new CustomError('Adres için koordinat bulunamadı.', 500));
   }
 };
 
-// Ters Coğrafi Kodlama (Koordinatlar -> Adres)
-exports.getAddress = async (req, res) => {
+exports.getAddress = async (req, res, next) => {
   try {
     const { lat, lon } = req.query;
     const address = await openStreetMapService.reverseGeocode(lat, lon);
     res.json(address);
   } catch (error) {
-    res.status(500).json({ message: 'Koordinatlar için adres bulunamadı.' });
+    next(new CustomError('Koordinatlar için adres bulunamadı.', 500));
   }
 };
 
-// Rota Planlama
-exports.planRoute = async (req, res) => {
+exports.planRoute = async (req, res, next) => {
   try {
-    const { start, end } = req.body; // start ve end: [enlem, boylam] formatında olmalı
+    const { start, end } = req.body;
     const route = await openStreetMapService.getRoute(start, end);
     res.json(route);
   } catch (error) {
-    res.status(500).json({ message: 'Rota planlanamadı.' });
+    next(new CustomError('Rota planlanamadı.', 500));
   }
 };

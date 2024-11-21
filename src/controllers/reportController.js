@@ -3,14 +3,14 @@ const Fuel = require('../models/Fuel');
 const Maintenance = require('../models/Maintenance');
 const PDFDocument = require('pdfkit');
 const ExcelJS = require('exceljs');
+const CustomError = require('../utils/customError');
 
-exports.getMonthlyPerformanceReport = async (req, res) => {
+exports.getMonthlyPerformanceReport = async (req, res, next) => {
   try {
     const currentDate = new Date();
     const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
 
-    // Teslimat Performansı
     const deliveries = await Delivery.find({
       createdAt: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
     });
@@ -18,21 +18,18 @@ exports.getMonthlyPerformanceReport = async (req, res) => {
     const completedDeliveries = deliveries.filter(delivery => delivery.status === 'completed').length;
     const delayedDeliveries = deliveries.filter(delivery => delivery.status === 'delayed').length;
 
-    // Yakıt Tüketimi
     const fuelRecords = await Fuel.find({
       createdAt: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
     });
 
     const totalFuel = fuelRecords.reduce((sum, record) => sum + record.amount, 0);
 
-    // Bakım Geçmişi
     const maintenanceRecords = await Maintenance.find({
       maintenanceDate: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
     });
 
     const totalMaintenances = maintenanceRecords.length;
 
-    // Performans Raporu
     const report = {
       deliveries: {
         total: deliveries.length,
@@ -49,11 +46,11 @@ exports.getMonthlyPerformanceReport = async (req, res) => {
 
     res.json(report);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error); 
   }
 };
 
-exports.getMonthlyReportPDF = async (req, res) => {
+exports.getMonthlyReportPDF = async (req, res, next) => {
   try {
     const reportData = req.reportData; 
 
@@ -82,11 +79,11 @@ exports.getMonthlyReportPDF = async (req, res) => {
     doc.text(`Toplam Bakim Sayisi: ${reportData.maintenance.totalMaintenances}`);
     doc.end();
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-exports.getMonthlyReportExcel = async (req, res) => {
+exports.getMonthlyReportExcel = async (req, res, next) => {
   try {
     const reportData = req.reportData; 
 
@@ -112,6 +109,6 @@ exports.getMonthlyReportExcel = async (req, res) => {
     await workbook.xlsx.write(res);
     res.end();
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };

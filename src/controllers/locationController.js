@@ -1,11 +1,12 @@
 const Location = require('../models/Location');
+const CustomError = require('../utils/customError');
 
-exports.updateLocation = async (req, res) => {
+exports.updateLocation = async (req, res, next) => {
   try {
     const { latitude, longitude } = req.body;
 
     if (req.user.role !== 'driver') {
-      return res.status(403).json({ message: 'Sadece şoförler konum güncelleyebilir.' });
+      throw new CustomError('Sadece şoförler konum güncelleyebilir.', 403); 
     }
 
     let location = await Location.findOne({ driver: req.user.id });
@@ -24,20 +25,19 @@ exports.updateLocation = async (req, res) => {
     await location.save();
     res.json({ message: 'Konum başarıyla güncellendi.', location });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error); 
   }
 };
 
-exports.getAllLocations = async (req, res) => {
-    try {
-      if (req.user.role !== 'admin' && req.user.role !== 'manager') {
-        return res.status(403).json({ message: 'Bu işlemi yapmaya yetkiniz yok.' });
-      }
-  
-      const locations = await Location.find().populate('driver', 'name'); 
-      res.json(locations);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
+exports.getAllLocations = async (req, res, next) => {
+  try {
+    if (req.user.role !== 'admin' && req.user.role !== 'manager') {
+      throw new CustomError('Bu işlemi yapmaya yetkiniz yok.', 403); 
     }
-  };
-  
+
+    const locations = await Location.find().populate('driver', 'name'); 
+    res.json(locations);
+  } catch (error) {
+    next(error); 
+  }
+};

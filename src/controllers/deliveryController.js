@@ -1,16 +1,16 @@
 const Delivery = require('../models/Delivery');
 
-exports.createDelivery = async (req, res) => {
+exports.createDelivery = async (req, res, next) => {
   try {
     const delivery = new Delivery(req.body);
     await delivery.save();
     res.status(201).json({ message: 'Teslimat başarıyla oluşturuldu.', delivery });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error); 
   }
 };
 
-exports.getAllDeliveries = async (req, res) => {
+exports.getAllDeliveries = async (req, res, next) => {
   try {
     let deliveries;
 
@@ -19,38 +19,42 @@ exports.getAllDeliveries = async (req, res) => {
     } else if (req.user.role === 'driver') {
       deliveries = await Delivery.find({ assignedDriver: req.user.id });
     } else {
-      return res.status(403).json({ message: 'Bu işlemi yapmaya yetkiniz yok.' });
+      throw new CustomError('Bu işlemi yapmaya yetkiniz yok.', 403); 
     }
 
     res.json(deliveries);
   } catch (error) {
-    res.status(500).json({ message: 'Sunucu hatası.' });
+    next(error); 
   }
 };
 
-exports.updateDelivery = async (req, res) => {
+exports.updateDelivery = async (req, res, next) => {
   try {
     const delivery = await Delivery.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!delivery) return res.status(404).json({ message: 'Teslimat bulunamadı.' });
+    if (!delivery) {
+      throw new CustomError('Teslimat bulunamadı.', 404); 
+    }
     res.json(delivery);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error); 
   }
 };
 
-exports.updateDeliveryStatus = async (req, res) => {
+exports.updateDeliveryStatus = async (req, res, next) => {
   try {
     const delivery = await Delivery.findById(req.params.id);
-    if (!delivery) return res.status(404).json({ message: 'Teslimat bulunamadı.' });
+    if (!delivery) {
+      throw new CustomError('Teslimat bulunamadı.', 404); 
+    }
 
     if (req.user.role === 'driver' && delivery.assignedDriver.toString() !== req.user.id) {
-      return res.status(403).json({ message: 'Bu teslimatı güncelleme yetkiniz yok.' });
+      throw new CustomError('Bu teslimatı güncelleme yetkiniz yok.', 403); 
     }
 
     delivery.status = req.body.status || delivery.status;
     await delivery.save();
     res.json({ message: 'Teslimat durumu güncellendi.', delivery });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error); 
   }
 };

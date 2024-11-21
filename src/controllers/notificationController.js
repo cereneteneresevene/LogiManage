@@ -2,17 +2,14 @@ const Notification = require('../models/Notification');
 const User = require('../models/User');
 const { sendEmail } = require('../services/emailService');
 const Vehicle = require('../models/Vehicle');
+const CustomError = require('../utils/customError');
 
-exports.createNotification = async (req, res) => {
+exports.createNotification = async (req, res, next) => {
   try {
     const { userId, message, type } = req.body;
-
-    // Kullanıcı ID kontrolü
     if (!userId) {
-      return res.status(400).json({ message: 'Kullanıcı ID\'si eksik.' });
+      throw new CustomError('Kullanıcı ID\'si eksik.', 400);
     }
-
-    // Bildirimi oluştur
     const notification = new Notification({
       user: userId,
       message,
@@ -21,7 +18,6 @@ exports.createNotification = async (req, res) => {
 
     await notification.save();
 
-    // Kullanıcıya e-posta gönder
     const user = await User.findById(userId);
     if (user && user.email) {
       await sendEmail(
@@ -33,49 +29,47 @@ exports.createNotification = async (req, res) => {
 
     res.status(201).json({ message: 'Bildirim ve e-posta başarıyla oluşturuldu.', notification });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error); 
   }
 };
 
-
-
-exports.getNotificationsByUser = async (req, res) => {
+exports.getNotificationsByUser = async (req, res, next) => {
   try {
     const notifications = await Notification.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.json(notifications);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-exports.markAsRead = async (req, res) => {
+exports.markAsRead = async (req, res, next) => {
   try {
     const notification = await Notification.findByIdAndUpdate(
       req.params.id,
       { isRead: true },
       { new: true }
     );
-    if (!notification) return res.status(404).json({ message: 'Bildirim bulunamadı.' });
+    if (!notification) {
+      throw new CustomError('Bildirim bulunamadı.', 404);
+    }
     res.json(notification);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
-exports.checkFuelAlerts = async (req, res) => {
+exports.checkFuelAlerts = async (req, res, next) => {
   try {
-    const lowFuelThreshold = 15; // Kritik yakıt seviyesi (yüzde)
+    const lowFuelThreshold = 15; 
     const vehicles = await Vehicle.find();
 
     const reminders = [];
 
     for (const vehicle of vehicles) {
       if (vehicle.fuelLevel <= lowFuelThreshold) {
-        // Bildirim oluştur
         const message = `Araç (${vehicle.plateNumber}) yakıt seviyesi kritik! Lütfen yakıt ekleyin.`;
         reminders.push({ vehicle: vehicle._id, message });
 
-        // Veritabanına bildirim kaydı
         await Notification.create({
           user: vehicle.assignedDriver,
           message,
@@ -83,7 +77,6 @@ exports.checkFuelAlerts = async (req, res) => {
           isRead: false,
         });
 
-        // E-posta gönderimi
         const driver = await User.findById(vehicle.assignedDriver);
         if (driver && driver.email) {
           await sendEmail(driver.email, 'Yakıt Uyarısı', message);
@@ -93,6 +86,6 @@ exports.checkFuelAlerts = async (req, res) => {
 
     res.json({ reminders });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
