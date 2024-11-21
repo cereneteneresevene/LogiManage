@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const CustomError = require('../utils/customError');
 
-// Kullanıcı Kaydı
 exports.register = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
@@ -15,7 +15,6 @@ exports.register = async (req, res) => {
   }
 };
 
-// Kullanıcı Girişi
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -27,5 +26,17 @@ exports.login = async (req, res) => {
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Sunucu hatası.' });
+  }
+};
+
+exports.getSpecificResource = async (req, res, next) => {
+  try {
+    const resource = await Resource.findById(req.params.id);
+    if (!resource) {
+      throw new CustomError('Bu kaynak bulunamadı.', 404); 
+    }
+    res.json(resource);
+  } catch (error) {
+    next(error); 
   }
 };

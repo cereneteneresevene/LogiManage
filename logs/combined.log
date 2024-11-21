@@ -2,3 +2,24 @@
 2024-11-21T09:35:23.707Z [INFO]: MongoDB bağlantısı başarılı!
 2024-11-21T09:36:35.296Z [INFO]: API Request - Method: GET, URL: /api/users, Body: {}
 2024-11-21T09:38:51.454Z [INFO]: Sunucu kapatılıyor...
+2024-11-21T09:48:48.840Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T09:48:48.865Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T09:49:06.519Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"adminexample.com","password":"adminpassword"}
+2024-11-21T09:49:31.913Z [INFO]: API Request - Method: POST, URL: /api/auth/login/user, Body: {"email":"admin@example.com","password":"adminpassword"}
+2024-11-21T09:49:42.496Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"admin@example.com","password":"adminpassword"}
+2024-11-21T09:50:09.414Z [INFO]: API Request - Method: GET, URL: /api/resource/12345, Body: {}
+2024-11-21T09:54:37.910Z [INFO]: Sunucu kapatılıyor...
+2024-11-21T09:54:45.253Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T09:54:45.278Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T09:55:39.760Z [INFO]: API Request - Method: GET, URL: /api/vehicles/12345, Body: {}
+2024-11-21T09:56:01.898Z [INFO]: API Request - Method: GET, URL: /api/vehicles/12345, Body: {}
+2024-11-21T09:56:27.236Z [INFO]: API Request - Method: GET, URL: /api/vehicles/64d3f2bc5a6532aefa00f123, Body: {}
+2024-11-21T09:57:58.973Z [INFO]: Sunucu kapatılıyor...
+2024-11-21T09:58:03.994Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T09:58:04.029Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T09:58:07.578Z [INFO]: API Request - Method: GET, URL: /api/vehicles/64d3f2bc5a6532aefa00f123, Body: {}
+2024-11-21T09:58:07.591Z [ERROR]: Unhandled Rejection: next is not defined
+2024-11-21T09:58:45.141Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T09:58:45.169Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T09:58:48.440Z [INFO]: API Request - Method: GET, URL: /api/vehicles/64d3f2bc5a6532aefa00f123, Body: {}
+2024-11-21T09:58:48.454Z [ERROR]: Unhandled Rejection: next is not defined

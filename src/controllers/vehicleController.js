@@ -1,7 +1,7 @@
 const Vehicle = require('../models/Vehicle');
-const User = require('../models/User'); // Aracın kime ait olduğunu kontrol etmek için
+const User = require('../models/User'); 
+const CustomError = require('../utils/customError');
 
-// Araç oluşturma - Sadece Admin ve Manager
 exports.createVehicle = async (req, res) => {
   try {
     const vehicle = new Vehicle(req.body);
@@ -12,7 +12,6 @@ exports.createVehicle = async (req, res) => {
   }
 };
 
-// Tüm araçları listeleme - Sadece Admin ve Manager
 exports.getAllVehicles = async (req, res) => {
   try {
     const vehicles = await Vehicle.find();
@@ -22,13 +21,13 @@ exports.getAllVehicles = async (req, res) => {
   }
 };
 
-// Belirli bir aracı görüntüleme - Driver yalnızca kendi aracını görebilir
 exports.getVehicleById = async (req, res) => {
   try {
     const vehicle = await Vehicle.findById(req.params.id);
-    if (!vehicle) return res.status(404).json({ message: 'Araç bulunamadı.' });
+    if (!vehicle) {
+      throw new CustomError('Araç bulunamadı.', 404); 
+    }
 
-    // Eğer kullanıcı Driver ise, sadece kendine atanmış aracı görüntüleyebilir
     if (req.user.role === 'driver') {
       const user = await User.findById(req.user.id);
       if (!user || user.assignedVehicleId.toString() !== vehicle._id.toString()) {
@@ -42,7 +41,6 @@ exports.getVehicleById = async (req, res) => {
   }
 };
 
-// Araç güncelleme - Sadece Admin ve Manager
 exports.updateVehicle = async (req, res) => {
   try {
     const vehicle = await Vehicle.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -53,7 +51,6 @@ exports.updateVehicle = async (req, res) => {
   }
 };
 
-// Araç silme - Sadece Admin ve Manager
 exports.deleteVehicle = async (req, res) => {
   try {
     const vehicle = await Vehicle.findByIdAndDelete(req.params.id);
