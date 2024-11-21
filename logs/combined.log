@@ -1,0 +1,4 @@
+2024-11-21T09:35:23.664Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-21T09:35:23.707Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-21T09:36:35.296Z [INFO]: API Request - Method: GET, URL: /api/users, Body: {}
+2024-11-21T09:38:51.454Z [INFO]: Sunucu kapatılıyor...
