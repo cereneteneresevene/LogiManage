@@ -17,12 +17,14 @@ const apiLogger = require('./middleware/loggerMiddleware');
 const errorHandler = require('./middleware/errorHandler');
 const logger = require('./utils/logger');
 const mongoose = require('mongoose');
+const apiLimiter = require('./middleware/rateLimiter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(apiLogger);
+app.use('/api/', apiLimiter);
 
 app.get('/', (req, res) => {
   res.send('Merhaba, API çalışıyor!');
