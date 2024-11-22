@@ -6,3 +6,21 @@
 2024-11-22T09:04:14.117Z [ERROR]: Hata: Geçersiz email veya şifre.
 2024-11-22T09:04:15.364Z [ERROR]: Hata: Geçersiz email veya şifre.
 2024-11-22T09:04:16.555Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T10:13:38.828Z [ERROR]: Hata: Rota planlanamadı.
+2024-11-22T10:13:38.834Z [ERROR]: Hata: Rota planlanamadı.
+2024-11-22T16:14:32.097Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:16:46.670Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:16:56.134Z [ERROR]: Hata: Geçersiz JSON formatı.
+2024-11-22T16:16:59.887Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:17:10.235Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:17:14.516Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:24:52.609Z [ERROR]: Hata: Vehicle validation failed: plateNumber: Geçerli bir plaka numarası giriniz. (6-10 karakter, sadece harf, rakam ve tire)
+2024-11-22T16:25:19.018Z [ERROR]: Hata: Vehicle validation failed: fuelType: Geçersiz yakıt türü. Sadece "diesel", "petrol" veya "electric" olabilir.
+2024-11-22T16:25:39.075Z [ERROR]: Hata: Vehicle validation failed: mileage: Kilometre negatif olamaz.
+2024-11-22T16:25:57.377Z [ERROR]: Hata: Vehicle validation failed: assignedDriver: Atanan sürücü bulunamadı.
+2024-11-22T16:26:33.285Z [ERROR]: Hata: E11000 duplicate key error collection: logimanage.vehicles index: plateNumber_1 dup key: { plateNumber: "42XY123" }
+2024-11-22T16:27:15.912Z [ERROR]: Hata: Atanmış sürücü gereklidir., Bitiş noktası gereklidir.
+2024-11-22T16:27:32.180Z [ERROR]: Hata: Atanmış sürücü gereklidir., Bitiş noktası gereklidir.
+2024-11-22T16:27:47.221Z [ERROR]: Hata: Atanmış sürücü gereklidir.
+2024-11-22T16:28:49.604Z [ERROR]: Hata: Bildirim türü belirtilmelidir.
+2024-11-22T16:29:12.949Z [ERROR]: Hata: Belirtilen kullanıcı mevcut değil.

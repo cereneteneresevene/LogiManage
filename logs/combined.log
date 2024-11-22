@@ -59,3 +59,45 @@
 2024-11-22T10:14:16.606Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"admin@example.com","password":"adminpassword"}
 2024-11-22T10:14:31.560Z [INFO]: API Request - Method: GET, URL: /api/routes, Body: {}
 2024-11-22T10:14:38.310Z [INFO]: API Request - Method: GET, URL: /api/routes, Body: {}
+2024-11-22T10:41:28.967Z [INFO]: Sunucu kapatılıyor...
+2024-11-22T10:41:28.976Z [INFO]: Sunucu başarıyla kapatıldı.
+2024-11-22T16:13:40.944Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-22T16:13:40.967Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-22T16:14:32.079Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"adminexample.com","password":"adminpassword"}
+2024-11-22T16:14:32.097Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:16:46.654Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"password":"adminpassword"}
+2024-11-22T16:16:46.670Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:16:56.134Z [ERROR]: Hata: Geçersiz JSON formatı.
+2024-11-22T16:16:59.885Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"adminexample.com"}
+2024-11-22T16:16:59.887Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:17:10.231Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"adminexample.com","password":"adminpassword1"}
+2024-11-22T16:17:10.235Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:17:14.511Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"adminexample.com","password":"adminpassword"}
+2024-11-22T16:17:14.516Z [ERROR]: Hata: Geçersiz email veya şifre.
+2024-11-22T16:17:24.308Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"admin@example.com","password":"adminpassword"}
+2024-11-22T16:24:35.400Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"admin@example.com","password":"adminpassword"}
+2024-11-22T16:24:52.577Z [INFO]: API Request - Method: POST, URL: /api/vehicles, Body: {"plateNumber":"42123","model":"BMW","fuelType":"electric","mileage":25000,"assignedDriver":"6735caa3a8f653e37567fe14"}
+2024-11-22T16:24:52.609Z [ERROR]: Hata: Vehicle validation failed: plateNumber: Geçerli bir plaka numarası giriniz. (6-10 karakter, sadece harf, rakam ve tire)
+2024-11-22T16:25:19.012Z [INFO]: API Request - Method: POST, URL: /api/vehicles, Body: {"plateNumber":"42XY123","model":"BMW","fuelType":"benzin","mileage":25000,"assignedDriver":"6735caa3a8f653e37567fe14"}
+2024-11-22T16:25:19.018Z [ERROR]: Hata: Vehicle validation failed: fuelType: Geçersiz yakıt türü. Sadece "diesel", "petrol" veya "electric" olabilir.
+2024-11-22T16:25:39.067Z [INFO]: API Request - Method: POST, URL: /api/vehicles, Body: {"plateNumber":"42XY123","model":"BMW","fuelType":"electric","mileage":-25000,"assignedDriver":"6735caa3a8f653e37567fe14"}
+2024-11-22T16:25:39.075Z [ERROR]: Hata: Vehicle validation failed: mileage: Kilometre negatif olamaz.
+2024-11-22T16:25:57.371Z [INFO]: API Request - Method: POST, URL: /api/vehicles, Body: {"plateNumber":"42XY123","model":"BMW","fuelType":"electric","mileage":25000,"assignedDriver":"6735caa3a8f653e37567fe13"}
+2024-11-22T16:25:57.377Z [ERROR]: Hata: Vehicle validation failed: assignedDriver: Atanan sürücü bulunamadı.
+2024-11-22T16:26:33.263Z [INFO]: API Request - Method: POST, URL: /api/vehicles, Body: {"plateNumber":"42XY123","model":"BMW","fuelType":"electric","mileage":25000,"assignedDriver":"6735caa3a8f653e37567fe14"}
+2024-11-22T16:26:33.285Z [ERROR]: Hata: E11000 duplicate key error collection: logimanage.vehicles index: plateNumber_1 dup key: { plateNumber: "42XY123" }
+2024-11-22T16:26:52.889Z [INFO]: API Request - Method: POST, URL: /api/routes, Body: {"startPoint":"İstanbul","driver_id":"6735caa3a8f653e37567fe14"}
+2024-11-22T16:27:15.908Z [INFO]: API Request - Method: POST, URL: /api/routes, Body: {"startPoint":"İstanbul","driver_id":"6735caa3a8f653e37567fe14"}
+2024-11-22T16:27:15.912Z [ERROR]: Hata: Atanmış sürücü gereklidir., Bitiş noktası gereklidir.
+2024-11-22T16:27:32.177Z [INFO]: API Request - Method: POST, URL: /api/routes, Body: {"startPoint":"İstanbul","driver_id":"6735caa3a8f653e37567fe13"}
+2024-11-22T16:27:32.180Z [ERROR]: Hata: Atanmış sürücü gereklidir., Bitiş noktası gereklidir.
+2024-11-22T16:27:47.217Z [INFO]: API Request - Method: POST, URL: /api/routes, Body: {"startPoint":"İstanbul","endPoint":"Ankara","driver_id":"6735caa3a8f653e37567fe14"}
+2024-11-22T16:27:47.221Z [ERROR]: Hata: Atanmış sürücü gereklidir.
+2024-11-22T16:28:49.598Z [INFO]: API Request - Method: POST, URL: /api/notifications, Body: {"userId":"6735caa3a8f653e37567fe14","message":"Yeni bir rota atandı."}
+2024-11-22T16:28:49.604Z [ERROR]: Hata: Bildirim türü belirtilmelidir.
+2024-11-22T16:29:12.945Z [INFO]: API Request - Method: POST, URL: /api/notifications, Body: {"userId":"6735caa3a8f653e37567fe13","message":"Yeni bir rota atandı.","type":"routeChange"}
+2024-11-22T16:29:12.949Z [ERROR]: Hata: Belirtilen kullanıcı mevcut değil.
+2024-11-22T16:29:33.309Z [INFO]: API Request - Method: POST, URL: /api/fuel, Body: {"vehicle":"67364490f29186dadb49fa4f","fuelAmount":50,"mileage":-25000,"cost":150,"fuelLevel":5}
+2024-11-22T16:29:51.426Z [INFO]: API Request - Method: POST, URL: /api/fuel, Body: {"vehicle":"67364490f29186dadb49fa4f","fuelAmount":50,"mileage":-25000,"cost":150,"fuelLevel":5}
+2024-11-22T16:30:25.365Z [INFO]: API Request - Method: GET, URL: /api/maintenances/reminders/vehicle/67364490f29186dadb49fa4f, Body: {}
+2024-11-22T16:30:30.419Z [INFO]: Sunucu kapatılıyor...

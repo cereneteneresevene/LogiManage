@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "mongoose-index": "node src/scripts/createIndexes.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "nodemailer": "^6.9.16",
     "pdfkit": "^0.15.1",
     "redis": "^4.7.0",
+    "validator": "^13.12.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
