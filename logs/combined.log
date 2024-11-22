@@ -42,3 +42,20 @@
 2024-11-21T10:59:14.651Z [INFO]: Sunucu 3000 portunda çalışıyor.
 2024-11-21T10:59:14.683Z [INFO]: MongoDB bağlantısı başarılı!
 2024-11-21T11:01:54.283Z [INFO]: Sunucu kapatılıyor...
+2024-11-22T10:06:20.050Z [INFO]: Sunucu 3000 portunda çalışıyor.
+2024-11-22T10:06:20.074Z [INFO]: MongoDB bağlantısı başarılı!
+2024-11-22T10:06:25.446Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"admin@example.com","password":"adminpassword"}
+2024-11-22T10:07:18.542Z [INFO]: API Request - Method: GET, URL: /api/geocode?address=Eiffel+Tower,+Paris, Body: {}
+2024-11-22T10:09:09.924Z [INFO]: API Request - Method: GET, URL: /api/geocode?address=Eiffel+Tower,+Paris, Body: {}
+2024-11-22T10:10:24.149Z [INFO]: API Request - Method: GET, URL: /api/reverse-geocode?lat=37.423021&lon=-122.083739, Body: {}
+2024-11-22T10:12:49.150Z [INFO]: API Request - Method: GET, URL: /api/reverse-geocode?lat=37.423021&lon=-122.083739, Body: {}
+2024-11-22T10:13:27.316Z [INFO]: API Request - Method: POST, URL: /api/plan-route, Body: {"start":[37.4219983,-122.084],"end":[37.432,-122.088]}
+2024-11-22T10:13:31.072Z [INFO]: API Request - Method: POST, URL: /api/plan-route, Body: {"start":[37.4219983,-122.084],"end":[37.432,-122.088]}
+2024-11-22T10:13:38.828Z [ERROR]: Hata: Rota planlanamadı.
+2024-11-22T10:13:38.834Z [ERROR]: Hata: Rota planlanamadı.
+2024-11-22T10:13:43.401Z [INFO]: API Request - Method: POST, URL: /api/plan-route, Body: {"start":[37.4219983,-122.084],"end":[37.432,-122.088]}
+2024-11-22T10:13:48.419Z [INFO]: API Request - Method: POST, URL: /api/plan-route, Body: {"start":[37.4219983,-122.084],"end":[37.432,-122.088]}
+2024-11-22T10:14:10.784Z [INFO]: API Request - Method: GET, URL: /api/routes, Body: {}
+2024-11-22T10:14:16.606Z [INFO]: API Request - Method: POST, URL: /api/auth/login, Body: {"email":"admin@example.com","password":"adminpassword"}
+2024-11-22T10:14:31.560Z [INFO]: API Request - Method: GET, URL: /api/routes, Body: {}
+2024-11-22T10:14:38.310Z [INFO]: API Request - Method: GET, URL: /api/routes, Body: {}
